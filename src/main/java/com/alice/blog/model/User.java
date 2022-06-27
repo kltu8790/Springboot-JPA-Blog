@@ -2,13 +2,15 @@ package com.alice.blog.model;
 
 import java.sql.Timestamp;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder // 빌더 패턴!
 @Entity// user 클래스를 통해서 private를 읽어서 자동으로 mysql에 테이블이 생성
+//@DynamicInsert // insert 할때 null인 필드 제외
 public class User {
 	
 	@Id // primary key
@@ -37,8 +40,12 @@ public class User {
 	@Column(nullable = false, length = 60)
 	private String email;
 	
-	@ColumnDefault("'user'")
-	private String role; // Enum을 쓴다 -> 도메인(범위) 설정 가능 // admin,user,manager 권한 부여 
+	//@ColumnDefault("user")
+	//DB는 RoleType라는게 없다.
+	@Enumerated(EnumType.STRING) //그래서 이 EnumType이 STRING이라는 것을 알려줘야 한다.
+	private RoleType role; // Enum을 쓴다 -> 도메인(범위) 설정 가능 // ADMIN. USER, MANAGER 권한 부여 
+	
+	private String oauth; 
 	
 	@CreationTimestamp // 시간 자동 입력
 	private Timestamp createDate;
