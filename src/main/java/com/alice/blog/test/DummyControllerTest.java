@@ -67,6 +67,8 @@ public class DummyControllerTest {
 		return user;
 	}
 	
+	
+	
 	// http://localhost:8000/blog/dummy/user
 	@GetMapping("/dummy/users")
 	public List<User> list(){
